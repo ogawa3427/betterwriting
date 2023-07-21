@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+#while true; do
+mosquitto_pub -h localhost -t testopic -m "$(cat pachet)"
+((++num))
+#sleep 2
+#done
+exit
