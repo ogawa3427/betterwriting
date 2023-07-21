@@ -1,9 +1,76 @@
 #!/bin/bash
 
+file_path="mut"
+#init1
+	num_lines=$(wc -l < "$file_path")
+	echo $num_lines
+	shuf -n 12 "$file_path" > tmp.txt
+	cat tmp.txt
+	echo $(cat tmp.txt) > pac
+	grep -vf tmp.txt "$file_path" > tmp_file && mv tmp_file "$file_path"
+	rm tmp.txt
+	mosquitto_pub -h localhost -t hc1 -m "$(cat pac)"
 
-#while true; do
+exit
+while true; do
+
+
+sleep 3
+
+	#start
+
+
+	#bwww
+	echo -n b > pach1
+	numline=$(wc -l < "mut")
+	shuf -n 12 "mut" > btmp
+	grep -vf btmp "mut" > btmp && mv btmp "mut"
+	echo "$(cat btmp)" >> pach1
+	rm btmp
+	# テキストファイルのパスを指定
+	file_path="mut"
+
+	# ファイルの行数を取得
+	num_lines=$(wc -l < "$file_path")
+	echo $num_lines
+
+	# ランダムに12行を選択して一時ファイルに保存
+	shuf -n 12 "$file_path" > tmp.txt
+
+	# 一時ファイルの内容を表示
+	cat tmp.txt
+	echo $(cat tmp_file) >> pach1
+
+	# 一時ファイルに記載された行を元のファイルから削除
+	grep -vf tmp.txt "$file_path" > tmp_file && mv tmp_file "$file_path"
+
+	# 一時ファイルを削除
+	rm tmp.txt
+
+
+	echo w > pach2
+	echo w > pach3
+	echo w > pach4
+	mosquitto_pub -h localhost -t hc1 -m "$(cat pach1)"
+	mosquitto_pub -h localhost -t hc2 -m "$(cat pach2)"
+	mosquitto_pub -h localhost -t hc3 -m "$(cat pach3)"
+	mosquitto_pub -h localhost -t hc3 -m "$(cat pach4)"
+
+
+	#pwww
+
+	#orrr->error loop
+
+	#wpww
+
+	#
+
+done
+
+
+
+
 mosquitto_pub -h localhost -t testopic -m "$(cat pachet)"
-((++num))
-#sleep 2
-#done
+
+
 exit
