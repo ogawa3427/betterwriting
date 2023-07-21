@@ -1,15 +1,45 @@
 #!/bin/bash
 
+#server
 file_path="mut"
+
 #init1
+	echo -n "i," > sc1t
 	num_lines=$(wc -l < "$file_path")
 	echo $num_lines
-	shuf -n 12 "$file_path" > tmp.txt
-	cat tmp.txt
-	echo $(cat tmp.txt) > pac
-	grep -vf tmp.txt "$file_path" > tmp_file && mv tmp_file "$file_path"
-	rm tmp.txt
-	mosquitto_pub -h localhost -t hc1 -m "$(cat pac)"
+	#13こ出す
+	echo $(shuf -n 14 mut | sed -E ':a;N;$!ba;s/\n/,/g') >> sc1t
+	grep -vf sc1t "$file_path" > tmp_file
+	cat sc1t
+	mosquitto_pub -h localhost -t sc1 -m "$(cat sc1t)"
+
+#init2
+	echo -n "i," > sc2t
+	num_lines=$(wc -l < "$file_path")
+	echo $num_lines
+	echo $(shuf -n 13 mut | sed -E ':a;N;$!ba;s/\n/,/g') >> sc2t
+	grep -vf sc2t "$file_path" > tmp_file
+	cat sc2t
+	mosquitto_pub -h localhost -t sc2 -m "$(cat sc2t)"
+
+#init3
+	echo -n "i," > sc3t
+	num_lines=$(wc -l < "$file_path")
+	echo $num_lines
+	echo $(shuf -n 13 mut | sed -E ':a;N;$!ba;s/\n/,/g') >> sc3t
+	grep -vf sc3t "$file_path" > tmp_file
+	cat sc3t
+	mosquitto_pub -h localhost -t sc3 -m "$(cat sc3t)"
+
+#init4
+	echo -n "i," > sc4t
+	num_lines=$(wc -l < "$file_path")
+	echo $num_lines
+	echo $(shuf -n 13 mut | sed -E ':a;N;$!ba;s/\n/,/g') >> sc4t
+	grep -vf sc4t "$file_path" > tmp_file
+	cat sc4t
+	mosquitto_pub -h localhost -t sc4 -m "$(cat sc4t)"
+
 
 exit
 while true; do
@@ -24,8 +54,8 @@ sleep 3
 	echo -n b > pach1
 	numline=$(wc -l < "mut")
 	shuf -n 12 "mut" > btmp
-	grep -vf btmp "mut" > btmp && mv btmp "mut"
 	echo "$(cat btmp)" >> pach1
+	grep -vf btmp "mut" > btmp && mv btmp "mut"
 	rm btmp
 	# テキストファイルのパスを指定
 	file_path="mut"
@@ -74,3 +104,4 @@ mosquitto_pub -h localhost -t testopic -m "$(cat pachet)"
 
 
 exit
+

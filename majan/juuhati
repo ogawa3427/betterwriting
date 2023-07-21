@@ -1,0 +1,23 @@
+#!/bin/bash
+
+file=fir.txt
+
+# ファイルを1行ずつ読み込んで処理
+while IFS= read -r line; do
+  # 現在の行の文字数を取得
+  current_length=${#line}
+
+  # スペースで埋める必要がある場合
+  if [ $current_length -lt 18 ]; then
+    # スペースで埋めた文字列を生成
+    padding=$((18 - current_length))
+    padding_string=$(printf '%*s' "$padding")
+
+    # 埋めた文字列を行に追加して、ファイルに書き込む
+    echo "${line}${padding_string}" 
+  else
+    # 18文字以上の場合はそのまま書き込む
+    echo "$line" 
+  fi
+done < "$file"
+exit
