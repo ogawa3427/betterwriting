@@ -31,7 +31,7 @@ git add -A
 #cmes=`echo $nver $tit`
 #eho $cmes
 git commit -m "$tit"
-git push origin souji
+git push
 #rm temp_for_commit
 
 exit
