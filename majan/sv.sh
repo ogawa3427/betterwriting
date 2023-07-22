@@ -22,24 +22,9 @@ file="mut"
 	./ready.sh
 
 	exit
-#		rec2=$(mosquitto_sub -h "$svname" -t cs2 -C 1 )
-#		rec3=$(mosquitto_sub -h "$svname" -t cs2 -C 1 )
-#		rec4=$(mosquitto_sub -h "$svname" -t cs2 -C 1 )
+#pwww
+	mosquitto_pub -h "$cr1name" -t "sc$1" -m "c,捨てる牌を選んでください"
 
-#make hab
-	cat sc1t | sed 's/^.,//g' | sed 's/,/\n/g' > hab1
-	cat sc2t | sed 's/^.,//g' | sed 's/,/\n/g' > hab2
-	cat sc3t | sed 's/^.,//g' | sed 's/,/\n/g' > hab3
-	cat sc4t | sed 's/^.,//g' | sed 's/,/\n/g' > hab4
-
-while true; do
-	if [ $rec1 == "ok" ]; then
-		sleep 1
-		break
-	fi
-done	
-
-echo OK
 #pwww
 mosquitto_pub -h localhost -t sc1 -m "p"
 mosquitto_pub -h localhost -t sc2 -m "w"
