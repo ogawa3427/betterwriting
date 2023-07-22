@@ -1,77 +1,27 @@
 #!/bin/bash
 svname="localhost"
+cr1name="localhost"
+cr2name="localhost"
+cr3name="localhost"
+cr4name="localhost"
+#本当の初期化
 ./mutter.sh
 #server
 file_path="mut"
 file="mut"
-#iiii
-#init1
-	echo -n "i," > sc1t
-	num_lines=$(wc -l < "$file_path")
-	echo $num_lines
-	line_count=$(wc -l < "$file")
-	echo -n "" > tmp
-	# ランダムな行番号を生成して、12行を取得
-	for i in {1..14}; do
-    	random_line=$((RANDOM % line_count + 1))
-    	sed -n "${random_line}p" "$file" >> tmp
-    	sed -i "${random_line}d" "$file"
-    line_count=$((line_count - 1))
-	done
-	echo $(cat tmp | sed -E ':a;N;$!ba;s/\n/,/g') >> sc1t
-	mosquitto_pub -h localhost -t sc1 -m "$(cat sc1t)"
-	rm tmp
-
-#init2
-	echo -n "i," > sc2t
-	num_lines=$(wc -l < "$file_path")
-	echo $num_lines
-	line_count=$(wc -l < "$file")
-	echo -n "" > tmp
-	for i in {1..14}; do
-    	random_line=$((RANDOM % line_count + 1))
-    	sed -n "${random_line}p" "$file" >> tmp
-    	sed -i "${random_line}d" "$file"
-    line_count=$((line_count - 1))
-	done
-	echo $(cat tmp | sed -E ':a;N;$!ba;s/\n/,/g') >> sc2t
-	mosquitto_pub -h localhost -t sc2 -m "$(cat sc2t)"
-	rm tmp
-
-#init3
-	echo -n "i," > sc3t
-	num_lines=$(wc -l < "$file_path")
-	echo $num_lines
-	line_count=$(wc -l < "$file")
-	echo -n "" > tmp
-	for i in {1..14}; do
-    	random_line=$((RANDOM % line_count + 1))
-    	sed -n "${random_line}p" "$file" >> tmp
-    	sed -i "${random_line}d" "$file"
-    line_count=$((line_count - 1))
-	done
-	echo $(cat tmp | sed -E ':a;N;$!ba;s/\n/,/g') >> sc3t
-	mosquitto_pub -h localhost -t sc3 -m "$(cat sc3t)"
-	rm tmp
-
-#init4
-	echo -n "i," > sc4t
-	num_lines=$(wc -l < "$file_path")
-	echo $num_lines
-	line_count=$(wc -l < "$file")
-	echo -n "" > tmp
-	for i in {1..14}; do
-    	random_line=$((RANDOM % line_count + 1))
-    	sed -n "${random_line}p" "$file" >> tmp
-    	sed -i "${random_line}d" "$file"
-    line_count=$((line_count - 1))
-	done
-	echo $(cat tmp | sed -E ':a;N;$!ba;s/\n/,/g') >> sc4t
-	mosquitto_pub -h localhost -t sc4 -m "$(cat sc4t)"
-	rm tmp
-
+#初期化
+	./init.sh > hab1
+	mosquitto_pub -h "$cr1name" -t sc1 -m "s,$(cat hab1)"
+	./init.sh > hab2
+	mosquitto_pub -h "$cr2name" -t sc2 -m "s,$(cat hab2)"
+	./init.sh > hab3
+	mosquitto_pub -h "$cr3name" -t sc3 -m "s,$(cat hab3)"
+	./init.sh > hab4
+	mosquitto_pub -h "$cr4name" -t sc4 -m "s,$(cat hab4)"
 	
-	rec1=$(mosquitto_sub -h "$svname" -t cs1 -C 1 )
+	./ready.sh
+
+	exit
 #		rec2=$(mosquitto_sub -h "$svname" -t cs2 -C 1 )
 #		rec3=$(mosquitto_sub -h "$svname" -t cs2 -C 1 )
 #		rec4=$(mosquitto_sub -h "$svname" -t cs2 -C 1 )
@@ -87,7 +37,6 @@ while true; do
 		sleep 1
 		break
 	fi
-		
 done	
 
 echo OK
@@ -111,7 +60,6 @@ sleep 1
 #mosquitto_pub -h localhost -t sc4 -m "r,$dlp"
 mosquitto_pub -h localhost -t sc1 -m "r,$dlp"
 
-
 echo -n $(mosquitto_sub -h "$svname" -t cs1 -C 1) > cs
 #echo -n $(mosquitto_sub -h "$svname" -t cs2 -C 1) >> cs
 #echo -n &(mosquitto_sub -h "$svname" -t cs3 -C 1) >> cs
@@ -127,14 +75,14 @@ mosquitto_pub -h localhost -t sc2 -m "w"
 mosquitto_pub -h localhost -t sc3 -m "w"
 mosquitto_pub -h localhost -t sc4 -m "w"
 
-
 #p1
 	echo -n "i,0" > sc1t
 	echo -n "w,0" > sc2t
 	echo -n "w,0" > sc3t
 	echo -n "w,0" > sc4t
-
 exit
+
+
 while true; do
 
 

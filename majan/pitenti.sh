@@ -7,28 +7,12 @@ echo $hir | ./dict.sh > trtmp
 text=$(cat trtmp)
 length=${#text}
 
-
-echo -n "" > "str1$1"
-echo -n "" > "str2$1"
-echo -n "" > "str3$1"
-echo -n "" > "str4$1"
-echo -n "" > "str5$1"
-echo -n "" > "str6$1"
-echo -n "" > "str7$1"
-echo -n "" > "str8$1"
-echo -n "" > "str9$1"
-echo -n "" > "str10$1"
-echo -n "" > "str11$1"
-echo -n "" > "str12$1"
-echo -n "" > "str13$1"
-echo -n "" > "str14$1"
-echo -n "" > "str15$1"
-echo -n "" > "str16$1"
-echo -n "" > "str17$1"
-echo -n "" > "str18$1"
+for i in {1..18}
+do
+  echo -n "" > "str$1$1"
+done
 
 tur=1
-cl=1
 for ((i = 0; i < length; i++)); do
 	
 	if [ $tur -eq 1 ]; then
@@ -106,13 +90,7 @@ for ((i = 0; i < length; i++)); do
     	echo -n " " >> "str18$1"
     	tur=1
   	fi
-
-  
-  	
 done
-
-#cat str1 str2 str3 str4 str5 str6 str7 str8 str9 str10 str11 str12 str13 str14 str15 str16 str17 str18 | fold -w 52
-
 
 cat "str1$1"
 echo -e "\n"

@@ -1,6 +1,16 @@
 sv=>cr1 sc1
 cr1=>sv cs1
 
+mutter.sh
+ init.sh
+sv.sh
+ mut
+ hab1..4
+
+cr1.sh
+pitenti.sh
+
+
 sc1平文 sc1t
 
 piei1 => tentiに渡す
