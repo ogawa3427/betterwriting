@@ -1,7 +1,5 @@
 #!/bin/bash
 
-
-
 #get pie list
 svname="localhost"
 while true; do
@@ -23,7 +21,7 @@ echo "$stt"
 		echo "１ ２ ３ ４ ５ ６ ７ ８ ９ 10 11 12 13 14"
 		echo "｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜"
 
-		./pitenti.sh
+		./pitenti.sh piei1
 	sleep 1
 		mosquitto_pub -h "$svname" -t cs1 -m "ok"
 	echo ok
@@ -40,6 +38,7 @@ echo "$stt"
 		echo $rec | sed 's/^.,//g' | ./dict.sh
 		echo "ron?"
 		read yn
+		sleep 1
 		mosquitto_pub -h "$svname" -t cs1 -m "$yn"
 		echo sent
 	fi
@@ -49,13 +48,10 @@ echo "$stt"
 		echo $pie > piei1	
 		echo "１ ２ ３ ４ ５ ６ ７ ８ ９ 10 11 12 13 14"
 		echo "｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜"
-		./pitenti.sh
+		./pitenti.sh piei1
 	exit
 	fi
 
-	if [ "$your" == "choser" ]; then
-		echo "do you want Rong?"
-	fi
 
 
 
