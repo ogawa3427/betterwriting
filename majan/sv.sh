@@ -39,6 +39,17 @@ function fourteen() {
 	done
 }
 
+function choose() {
+	crname="cr$1name"
+	mosquitto_pub -h "$crname" -t "sc$1" -m "c,plz_select, "
+	cho=$(mosquitto_sub -h "$crname" -t "cs$1" -C 1)
+	echo $cho
+
+
+	exit
+
+}
+
 #本当の初期化
 mutter
 #server
@@ -47,14 +58,17 @@ file="mut"
 #初期化
 	fourteen 1
 	mosquitto_pub -h "$cr1name" -t sc1 -m "s, ,$(cat hab1)"
-	./init.sh > hab2
-	mosquitto_pub -h "$cr2name" -t sc2 -m "s,$(cat hab2)"
-	./init.sh > hab3
-	mosquitto_pub -h "$cr3name" -t sc3 -m "s,$(cat hab3)"
-	./init.sh > hab4
-	mosquitto_pub -h "$cr4name" -t sc4 -m "s,$(cat hab4)"
+	fourteen 2
+	mosquitto_pub -h "$cr2name" -t sc2 -m "s, ,$(cat hab2)"
+	fourteen 3
+	mosquitto_pub -h "$cr3name" -t sc3 -m "s, ,$(cat hab3)"
+	fourteen 4
+	mosquitto_pub -h "$cr4name" -t sc4 -m "s, ,$(cat hab4)"
 	
 	./ready.sh
+
+
+choose 1
 
 	exit
 #pwww

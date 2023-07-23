@@ -2,6 +2,10 @@
 
 svname="$(cat svname)"
 
+function ready() {
+	mosquitto_pub -h "$svname" -t cs1 -m "ok"
+}
+
 function dekaruro() {
 	rec=$(mosquitto_sub -h "$svname" -t "sc$1" -C 1)
 	stt=$(echo $rec | sed 's/,.*//g')
@@ -47,51 +51,45 @@ function show() {
 
 
 while true; do
-	dekaruro "$1"
+#main loop
 
+    dekaruro "$1"
 
-	show 1
-exit
 	if [ "$stt" == "s" ]; then
-		show
-		echo $pie > "pie$1"
-
-		
-
-
-		./pitenti.sh piei1
-	sleep 1
-		mosquitto_pub -h "$svname" -t cs1 -m "ok"
-	echo ok
+		show $1
+		ready
+		ready
+		ready
+		ready
 	fi
 
-	if [ "$stt" == "p" ]; then
-		echo plz select
-		read pinum
-		mosquitto_pub -h "$svname" -t cs1 -m "$pinum"
+	if [ "$stt" == "c" ]; then
+		echo $mes
+		while true; do
+			read pien
+			if [[ $pien == [1-14] ]]; then
+				break
+			else
+				echo "you can say 1-14"
+			fi
+		done
+		mosquitto_pub -h "$svname" -t cs$1 -m "$pien"
 		echo sent
 	fi
 
-	if [ "$stt" == "r" ]; then
-		echo $rec | sed 's/^.,//g' | ./dict.sh
-		echo "ron?"
-		read yn
-		sleep 1
-		mosquitto_pub -h "$svname" -t cs1 -m "$yn"
+	if [ "$stt" == "q" ]; then
+		echo $pie | sed sed 's/[xyzw]//g' | ./dict.sh
+		echo "Ron?"
+		while true; do
+			read que
+			if [ $que == y ] || [ $que == n ];then
+				break
+			else
+				echo "you can say y/n"
+			fi
+		mosquitto_pub -h "$svname" -t cs$1 -m "$que"
 		echo sent
 	fi
-
-	if [ "$stt" == "w" ]; then
-		pie=$(echo $rec | sed 's/i,//g' )
-		echo $pie > piei1	
-		echo "１ ２ ３ ４ ５ ６ ７ ８ ９ 10 11 12 13 14"
-		echo "｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜"
-		./pitenti.sh piei1
-	exit
-	fi
-
-
-
 
 done
 
