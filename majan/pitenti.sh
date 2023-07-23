@@ -9,7 +9,7 @@ length=${#text}
 
 for i in {1..18}
 do
-  echo -n "" > "str$1$1"
+  echo -n "" > "str$i$1"
 done
 
 tur=1

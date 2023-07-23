@@ -1,17 +1,52 @@
 #!/bin/bash
+echo "localhost" > cr1name
 svname="$(cat svname)"
 cr1name="$(cat cr1name)"
 cr2name="$(cat cr2name)"
 cr3name="$(cat cr3name)"
 cr4name="$(cat cr4name)"
+
+function mutter() {
+	echo -n "" > mut
+	strings=("a1" "b1" "c1" "d1" "e1" "a2" "b2" "c2" "d2" "e2" "f2" "b3" "c3" "e3" "f3" "a4" "b4" "c4" "d4" "e4" "f4" "a5" "b5" "d5" "e5" "f5" "a6" "b6" "c6" "d6" "e6" "ch" "ph" "la" "ig" "to" "ea" "ng")
+	suffixes=("x" "y" "z" "w")
+
+	for str in "${strings[@]}"; do
+	  	for suffix in "${suffixes[@]}"; do
+    		echo "${str}${suffix}" >> mut
+  		done
+	done
+}
+
+
+function ready() {
+	ok_count=0
+	while [ $ok_count -lt 4 ]; do
+    	rec=$(mosquitto_sub -h "$svname" -t ready -C 1)
+    	if [ "$rec" == "OK" ]; then
+        	((ok_count++))
+    	fi
+    done
+	echo "go next"
+}
+
+function fourteen() {
+	file_path="mut"
+	lines=$(shuf -n 14 "$file_path")
+	echo -n "$lines" > "hab$1"
+	echo "$lines" | while IFS= read -r line; do
+    	sed -i "/^$line\$/d" "$file_path"
+	done
+}
+
 #本当の初期化
-./mutter.sh
+mutter
 #server
 file_path="mut"
 file="mut"
 #初期化
-	./init.sh > hab1
-	mosquitto_pub -h "$cr1name" -t sc1 -m "s,$(cat hab1)"
+	fourteen 1
+	mosquitto_pub -h "$cr1name" -t sc1 -m "s, ,$(cat hab1)"
 	./init.sh > hab2
 	mosquitto_pub -h "$cr2name" -t sc2 -m "s,$(cat hab2)"
 	./init.sh > hab3

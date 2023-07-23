@@ -1,36 +1,63 @@
 #!/bin/bash
 
 svname="$(cat svname)"
-function dekaturo() {
+
+function dekaruro() {
 	rec=$(mosquitto_sub -h "$svname" -t "sc$1" -C 1)
 	stt=$(echo $rec | sed 's/,.*//g')
 	mes=$(echo $rec | cut -d ',' -f 2)
 	pie=$(echo $rec | cut -d ',' -f 3-)
-	echo "ho$1"
 }
-dekaturo 1
-echo "nn$1"
-exit
-#get pie list
+
+function show() {
+	trs=$(echo $pie | sed 's/,//g' | sed 's/[xyzw]//g' | ./dict.sh | sed 's/ //g')
+
+	for i in {1..18}
+	do
+		echo -n "" > "str$i$1"
+	done
+
+	length=${#trs}
+	tur=1
+	for ((i = 0; i < length; i++)); do
+		case $tur in
+			1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17)
+				echo -n "${trs:i:1} " >> "str$tur$1"
+				echo -n " " >> "str$tur$1"
+        		((++tur)) ;;
+			18)
+				echo -n "${trs:i:1} " >> "str18$1"
+				echo -n " " >> "str18$1"
+				tur=1 ;;
+		esac
+	done
+
+	for i in {1..18}
+	do
+		echo "" >> "str$i$1"
+	done
+
+	echo "１　２　３　４　５　６　７　８　９　10　11　12　13　14"
+	echo "｜　｜　｜　｜　｜　｜　｜　｜　｜　｜　｜　｜　｜　｜ "
+	for i in {1..18}
+	do
+		cat "str$i$1"
+	done
+}
+
 
 while true; do
+	dekaruro "$1"
 
-	#受信からの分割
-	 > rec
-	rec=$(cat rec)
 
-	stt=$(echo $rec | sed 's/,.*//')
-echo "$stt"
-
-	if [ "$stt" == "i" ]; then
-
-		pie=$(echo $rec | sed 's/i,//g' )
-#		echo $pie
-		echo $pie > piei1
+	show 1
+exit
+	if [ "$stt" == "s" ]; then
+		show
+		echo $pie > "pie$1"
 
 		
-		echo "１ ２ ３ ４ ５ ６ ７ ８ ９ 10 11 12 13 14"
-		echo "｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜ ｜"
+
 
 		./pitenti.sh piei1
 	sleep 1

@@ -18,5 +18,5 @@ while [ $ok_count -lt 4 ]; do
 done
 
 # 4つの"OK"メッセージを受信した後の処理
-echo "init complete"
+echo "go next"
 # ここに次の処理を記述します。
