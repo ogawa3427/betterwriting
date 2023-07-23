@@ -1,9 +1,9 @@
 #!/bin/bash
-svname="localhost"
-cr1name="localhost"
-cr2name="localhost"
-cr3name="localhost"
-cr4name="localhost"
+svname="$(cat svname)"
+cr1name="$(cat cr1name)"
+cr2name="$(cat cr2name)"
+cr3name="$(cat cr3name)"
+cr4name="$(cat cr4name)"
 #本当の初期化
 ./mutter.sh
 #server

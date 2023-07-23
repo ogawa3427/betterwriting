@@ -1,6 +1,17 @@
 sv=>cr1 sc1
 cr1=>sv cs1
 
+pack
+	1,2,3,.,..
+	1 --status
+	2 --message
+	3... --pie
+
+cr func.
+	s --show
+
+
+
 mutter.sh
  init.sh
 sv.sh

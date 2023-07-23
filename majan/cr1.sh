@@ -1,11 +1,22 @@
 #!/bin/bash
 
+svname="$(cat svname)"
+function dekaturo() {
+	rec=$(mosquitto_sub -h "$svname" -t "sc$1" -C 1)
+	stt=$(echo $rec | sed 's/,.*//g')
+	mes=$(echo $rec | cut -d ',' -f 2)
+	pie=$(echo $rec | cut -d ',' -f 3-)
+	echo "ho$1"
+}
+dekaturo 1
+echo "nn$1"
+exit
 #get pie list
-svname="localhost"
+
 while true; do
 
 	#受信からの分割
-	mosquitto_sub -h "$svname" -t sc1 -C 1 > rec
+	 > rec
 	rec=$(cat rec)
 
 	stt=$(echo $rec | sed 's/,.*//')
